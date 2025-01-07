@@ -33,22 +33,14 @@ class Tree:
         if self.left is None and self.right is None:
             # Leaf node
             if self.value in replace_placeholder.keys():
-                print(replace_placeholder[self.value], end='')
+                return str(replace_placeholder[self.value])
             else:
-                print(self.value, end='')
+                return str(self.value)
         else:
             if self.value in ['-', '/'] and self.left.evaluate(replace_placeholder) < self.right.evaluate(replace_placeholder):
-                print('(', end='')
-                self.right.express(replace_placeholder)
-                print(self.value, end='')
-                self.left.express(replace_placeholder)
-                print(')', end='')
+                return f"({self.right.express(replace_placeholder)}{self.value}{self.left.express(replace_placeholder)})"
             else:
-                print('(', end='')
-                self.left.express(replace_placeholder)
-                print(self.value, end='')
-                self.right.express(replace_placeholder)
-                print(')', end='')
+                return f"({self.left.express(replace_placeholder)}{self.value}{self.right.express(replace_placeholder)})"
 
     def evaluate(self, replace_placeholder={}):
         if self.left is None and self.right is None:
@@ -128,11 +120,13 @@ def solve(numbers, target):
     return Tree(-1)
 
 if __name__ == '__main__':
+    import numpy as np
+
     large_numbers = [100, 75, 50, 25]
     small_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     large_numbers_span = get_numbers_span(large_numbers, 1, 999)
-    for key, value in large_numbers_span.items():
-        print(key, end=', ')
-    print()
-    print(f"Count: {len(large_numbers_span)}")
+    res = [(v, t.express()) for v, t in large_numbers_span.items()]
+    res = np.array(res)
+    print(res)
+    np.savetxt('large_numbers_span.txt', res, fmt=['%s', '%s'])
