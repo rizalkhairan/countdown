@@ -94,10 +94,14 @@ def all_possible_trees(numbers):
                         trees[i].append(new_tree)
                         yield new_tree
 
-def get_numbers_span(numbers, min=-1, max=-1, replace_placeholder={}):
+def get_numbers_span(numbers, min=-1, max=-1, replace_placeholder={}, template_trees=None):
     span = {}
     
-    trees = list(all_possible_trees(numbers))
+    if template_trees is None:
+        trees = list(all_possible_trees(numbers))
+    else:
+        trees = template_trees
+
     for tree in trees:
         result = tree.evaluate(replace_placeholder)
         if result <= 0:
@@ -119,12 +123,26 @@ def solve(numbers, target):
 
 if __name__ == '__main__':
     import numpy as np
+    import itertools
 
     large_numbers = [100, 75, 50, 25]
     small_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-    large_numbers_span = get_numbers_span(large_numbers)
-    res = [(v, t.express()) for v, t in large_numbers_span.items()]
-    res = np.array(res)
-    print(res)
-    np.savetxt('large_numbers_span.txt', res, fmt=['%s', '%s'])
+    print("Generating all possible trees...")
+    template_trees = list(all_possible_trees(large_numbers+[1, 2]))
+
+    print("Computing span...")
+    small_numbers_combinations = [(i, i) for i in small_numbers]
+    small_numbers_combinations += list(itertools.combinations(small_numbers, 2))
+
+    for small1, small2 in small_numbers_combinations:
+        replace_dict = {1: small1, 2: small2}
+        print(f"Computing span for {replace_dict}...")
+
+        span = get_numbers_span(large_numbers+[small1, small2], min=100, max=999, replace_placeholder=replace_dict,template_trees=template_trees)
+        
+        res = []
+        for v, t in span.items():
+            res.append([v, t.express(replace_dict)])
+        res = np.array(res)
+        np.savetxt(f'data/span/{small1}_{small2}_span.txt', res, fmt='%s')
