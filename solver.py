@@ -124,6 +124,7 @@ def solve(numbers, target):
 if __name__ == '__main__':
     import numpy as np
     import itertools
+    import os
 
     large_numbers = [100, 75, 50, 25]
     small_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -136,8 +137,10 @@ if __name__ == '__main__':
     small_numbers_combinations += list(itertools.combinations(small_numbers, 2))
 
     for small1, small2 in small_numbers_combinations:
+        if os.path.exists(f'data/span/{small1}_{small2}_span.txt'):
+            continue
         replace_dict = {1: small1, 2: small2}
-        print(f"Computing span for {replace_dict}...")
+        print(f"Computing span for {small1}, {small2} ...")
 
         span = get_numbers_span(large_numbers+[small1, small2], min=100, max=999, replace_placeholder=replace_dict,template_trees=template_trees)
         
