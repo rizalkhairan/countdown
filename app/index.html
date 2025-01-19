@@ -4,24 +4,26 @@
     <title>Countdown Numbers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="numbers.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
 
 <body>
     <h1>Countdown Numbers Solver!</h1>
     <p id="about">This is a brute force numbers round solver that finds the most optimal solution.</p>
     <form>
-        <label for="numbers">Numbers:</label>
+        <p>Numbers:</p>
         <div class="numbers-inputs">
-            <input type="text" class="numbers" id="n1" name="numbers" required>
-            <input type="text" class="numbers" id="n2" name="numbers" required>
-            <input type="text" class="numbers" id="n3" name="numbers" required>
-            <input type="text" class="numbers" id="n4" name="numbers" required>
-            <input type="text" class="numbers" id="n5" name="numbers" required>
-            <input type="text" class="numbers" id="n6" name="numbers" required>
+            <input type="text" class="numbers" id="n1" name="numbers">
+            <input type="text" class="numbers" id="n2" name="numbers">
+            <input type="text" class="numbers" id="n3" name="numbers">
+            <input type="text" class="numbers" id="n4" name="numbers">
+            <input type="text" class="numbers" id="n5" name="numbers">
+            <input type="text" class="numbers" id="n6" name="numbers">
         </div>
         <label for="target">Target:</label>
         <input type="text" id="target" name="target" required>
-        <button type="submit">Solve</button>
+        <button type="submit" id="numbers-solve">Solve</button>
     </form>
     <div id="solutions">
         <h4>Solutions:</h4>
