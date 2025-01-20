@@ -31,8 +31,13 @@ function solve_numbers() {
         solution_panel.innerHTML = 'Invalid target';
     } else {
         /* Call solve function */
+        let solution = solve(numbers, target);  // Terrible performance. Need improvement
 
-        // Dummy solutions
-        solution_panel.innerHTML = `${target} = ${numbers.join('+')}`
+        let solution_steps = `${target} = ${express(solution)}`;
+        if (evaluate(solution) != target){
+            solution_steps += `<br>Off by ${Math.abs(evaluate(solution) - target)}`;
+        }
+
+        solution_panel.innerHTML = solution_steps;
     }
 }
